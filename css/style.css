@@ -267,14 +267,154 @@ h1{
   flex-shrink: 0;
 }
 
+/* ====== HAMBURGER BUTTON ====== */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+  z-index: 1100;
+}
+
+.nav-toggle:hover {
+  background: rgba(221, 132, 72, 0.12);
+}
+
+/* The middle bar */
+.hamburger {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #dd8448;
+  border-radius: 2px;
+  position: relative;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+/* Top and bottom bars via ::before and ::after */
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #dd8448;
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  transition: transform 0.35s ease, top 0.35s ease, opacity 0.3s ease;
+}
+
+.hamburger::before {
+  top: -7px;
+}
+
+.hamburger::after {
+  top: 7px;
+}
+
+/* Open (X) state */
+.nav-toggle.open .hamburger {
+  background: transparent;
+}
+
+.nav-toggle.open .hamburger::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.nav-toggle.open .hamburger::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 900px) {
+  header {
+    padding: 15px 0;
+  }
+  main {
+    margin-top: 80px;
+  }
+}
+
 @media (max-width: 768px) {
+
+  /* ====== NAV: HAMBURGER OPEN ====== */
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-container {
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 9, 9, 0.98);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(221, 132, 72, 0.2);
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.35s ease;
+    padding: 0;
+    z-index: 999;
+  }
+
+  .nav-links.active {
+    max-height: 320px;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 16px 0 20px;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    opacity: 0.85;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+
+  .nav-links a:hover {
+    background: rgba(221, 132, 72, 0.1);
+    color: #dd8448;
+    opacity: 1;
+  }
+
+  /* ====== ABOUT ====== */
   .about_container {
     flex-direction: column;
-    padding: 20px;
+    padding: 30px 20px;
+    gap: 30px;
+    margin-top: 80px;
   }
   .about-img {
-    width: 250px;
-    height: 250px;
+    width: 220px;
+    height: 220px;
   }
 }
 
@@ -328,20 +468,21 @@ h1{
     
 } */
 .container-project {
-  display: flex;
-  gap: 50px;
-  flex-wrap: wrap;
-  /* Zorgt dat kaarten netjes op een nieuwe regel komen als je scherm te smal wordt */
-  margin-left: 40px;
-  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  place-items: center;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .card-project {
-  width: 350px;
+  width: 100%;
+  max-width: 350px;
   height: 450px;
   perspective: 1000px;
-  margin-top: 100px;
-  /* margin-left uit de class gehaald, 'gap' in de container regelt nu de afstand! */
+  margin-top: 30px;
 }
 
 /* De container die daadwerkelijk omdraait */
@@ -361,7 +502,6 @@ h1{
 }
 
 .project-recepten .container-card {
-  margin-left: -40px;
   border: 2px solid rgb(173, 120, 3);
   box-shadow:
     0 0 20px #503401,
@@ -370,8 +510,9 @@ h1{
 }
 
 #projects {
-  margin-top: 300px;
-  margin-left: 30px;
+  margin-top: 100px;
+  margin-left: 0;
+  padding: 40px 20px;
 }
 
 .project-h2 {
@@ -638,7 +779,7 @@ to{
 }
 
 .contact-info p {
-  margin-top: 300px;
+  margin-top: 10px;
   opacity: 0.8;
 }
 
@@ -759,4 +900,87 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.4);
+}
+
+/* ====== EXTRA MOBILE RESPONSIVE ====== */
+@media (max-width: 768px) {
+
+  /* Hero */
+  .main_container {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 30px;
+  }
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+  .hero-text p {
+    margin: 0 auto 2rem auto;
+  }
+  .hero-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .pro-btn {
+    padding: 0.9rem 1.6rem;
+    font-size: 0.85rem;
+  }
+
+  /* Projects */
+  #projects {
+    margin-top: 60px;
+    margin-left: 0;
+    padding: 30px 16px;
+  }
+  .cont {
+    grid-template-columns: 1fr;
+  }
+  .container-project {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    margin: 0 auto;
+    gap: 30px;
+  }
+  .card-project {
+    width: 100%;
+    max-width: 340px;
+    margin-top: 10px;
+  }
+
+  /* Experience */
+  #experience {
+    margin-top: 60px;
+    padding: 30px 16px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Contact */
+  .contact-layout {
+    gap: 30px;
+  }
+  .content_container {
+    padding: 40px 16px;
+    margin-top: 30px;
+  }
+  .contact-form {
+    padding: 24px 16px;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 60px;
+    padding: 40px 16px 20px 16px;
+  }
+  .footer-container {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .footer-col {
+    min-width: unset;
+  }
 }
